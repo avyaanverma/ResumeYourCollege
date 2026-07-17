@@ -7,7 +7,9 @@ config({ quiet: true });
 const envSchema = z.object({
   PORT: z.coerce.number().default(appConstants.DEFAULT_PORT),
   MONGO_URI: z.string(),
-  NODE_ENV: z.string().default(appConstants.NODE_ENV.DEVELOPMENT)
+  NODE_ENV: z.string().default(appConstants.NODE_ENV.DEVELOPMENT),
+  PAYLOAD_LIMIT: z.string().default(appConstants.SECURITY.PAYLOAD_LIMIT),
+  CORS_ORIGIN: z.string().default(appConstants.SECURITY.CORS_ORIGIN),
 });
 
 const result = envSchema.safeParse(process.env);
@@ -15,7 +17,7 @@ const result = envSchema.safeParse(process.env);
 if (!result.success) {
   logger.error(
     { errors: result.error.flatten().fieldErrors },
-    'Invalid environment variables',
+    'Invalid environment variables'
   );
   process.exit(1);
 }
