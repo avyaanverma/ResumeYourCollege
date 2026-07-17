@@ -1,10 +1,10 @@
 import createApp from "./src/app.js"
+import env from "./config/env.js";
 
 const startServer = ()=>{
     const server = createApp();
-
-    server.listen(()=>{
-        console.log("Server running on http://localhost:3000");
+    server.listen(env.PORT,()=>{
+        console.log(`Server running on http://localhost:${env.PORT}`);
     });
 }
 
