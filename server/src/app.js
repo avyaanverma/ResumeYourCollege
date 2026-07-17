@@ -1,7 +1,18 @@
 import express from 'express';
+import pinoHttp from 'pino-http';
+import logger from './logger/pino.js';
 
 const createApp = () => {
   const app = express();
+
+  app.use(
+    pinoHttp({
+      logger,
+      autoLogging: {
+        ignore: (req) => req.url === '/health' || req.url === '/metrics',
+      },
+    }),
+  );
 
   app.get('/', (req, res) => {
     res.json({

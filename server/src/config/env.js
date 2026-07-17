@@ -1,18 +1,22 @@
 import { config } from 'dotenv';
 import { z } from 'zod';
-import {appConstants} from "../constants/index.js"
-config();
+import { appConstants } from '../constants/index.js';
+import logger from '../logger/pino.js';
+config({ quiet: true });
 
 const envSchema = z.object({
   PORT: z.coerce.number().default(appConstants.DEFAULT_PORT),
   MONGO_URI: z.string(),
+  NODE_ENV: z.string().default(appConstants.NODE_ENV.DEVELOPMENT)
 });
 
 const result = envSchema.safeParse(process.env);
 
 if (!result.success) {
-  console.log('❌Invalid environment variables');
-  console.log(result.error.flatten().fieldErrors);
+  logger.error(
+    { errors: result.error.flatten().fieldErrors },
+    'Invalid environment variables',
+  );
   process.exit(1);
 }
 
