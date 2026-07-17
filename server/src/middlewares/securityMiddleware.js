@@ -5,6 +5,7 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import hpp from 'hpp';
+import { StatusCodes } from 'http-status-codes';
 import env from '../config/env.js';
 import { appConstants } from '../constants/index.js';
 
@@ -42,8 +43,8 @@ const securityMiddleware = (app) => {
       standardHeaders: 'draft-8',
       legacyHeaders: false,
       skip: (req) => req.path === '/health' || req.path === '/metrics',
-      handler: (_req, res, _next, options) => {
-        res.status(options.statusCode).json({
+      handler: (_req, res) => {
+        res.status(StatusCodes.TOO_MANY_REQUESTS).json({
           message: 'Too many requests. Please try again later.',
         });
       },
