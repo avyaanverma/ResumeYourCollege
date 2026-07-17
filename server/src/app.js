@@ -1,15 +1,15 @@
-import express from "express";
+import express from 'express';
 
-const createApp = ()=>{
-    const app = express();
+const createApp = () => {
+  const app = express();
 
-    app.get("/", (req,res)=>{
-        res.json({
-            message: "Server working fine."
-        })
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Server working fine.',
     });
+  });
 
-    return app;
-}
+  return app;
+};
 
 export default createApp;
