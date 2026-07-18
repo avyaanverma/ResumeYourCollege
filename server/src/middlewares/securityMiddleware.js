@@ -8,6 +8,7 @@ import hpp from 'hpp';
 import { StatusCodes } from 'http-status-codes';
 import env from '../config/env.js';
 import { appConstants } from '../constants/index.js';
+import { verifyToken } from '../middlewares/verifyToken.js';
 
 const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) =>
   origin.trim()

@@ -10,6 +10,9 @@ const envSchema = z.object({
   NODE_ENV: z.string().default(appConstants.NODE_ENV.DEVELOPMENT),
   PAYLOAD_LIMIT: z.string().default(appConstants.SECURITY.PAYLOAD_LIMIT),
   CORS_ORIGIN: z.string().default(appConstants.SECURITY.CORS_ORIGIN),
+  ACCESS_TOKEN_SECRET: z.string(),
+
+  REFRESH_TOKEN_SECRET: z.string(),
 });
 
 const result = envSchema.safeParse(process.env);
