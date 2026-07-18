@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Production Backend Handbook</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#0f172a;color:#e5e7eb;display:flex}
+aside{width:280px;background:#111827;height:100vh;overflow:auto;position:fixed;padding:20px}
+main{margin-left:300px;padding:40px;max-width:1000px}
+h1,h2{color:#38bdf8}
+section{margin-bottom:60px}
+pre{background:#1e293b;padding:15px;border-radius:8px;overflow:auto}
+code{color:#7dd3fc}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #334155;padding:10px}
+.note{background:#172554;padding:15px;border-left:5px solid #38bdf8}
+.flow{background:#111827;padding:15px;border-radius:8px;white-space:pre-line;font-family:monospace}
+a{color:#93c5fd;text-decoration:none}
+li{margin:8px 0}
+</style>
+</head>
+<body>
+<aside>
+<h2>Backend Handbook</h2>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#architecture">Architecture</a></li>
+<li><a href="#server">Express Server</a></li>
+<li><a href="#folder">Folder Structure</a></li>
+<li><a href="#serverjs">server.js</a></li>
+<li><a href="#appjs">app.js</a></li>
+<li><a href="#env">Environment</a></li>
+<li><a href="#gitignore">Git Ignore</a></li>
+<li><a href="#config">Config</a></li>
+<li><a href="#mongodb">MongoDB</a></li>
+<li><a href="#logger">Logger</a></li>
+<li><a href="#middleware">Security Middleware</a></li>
+</ul>
+</aside>
+<main>
+<section id="intro">
+<h1>Production Backend Handbook</h1>
+<div class="note">
+This handbook teaches not only WHAT to use but WHY every production backend component exists.
+</div>
+</section>
+
+<section id="architecture">
+<h2>Request Lifecycle</h2>
+<div class="flow">
+Client
+↓
+NGINX / Load Balancer
+↓
+Express Server
+↓
+Morgan
+↓
+Helmet
+↓
+CORS
+↓
+Rate Limiter
+↓
+Body Parser
+↓
+Validation
+↓
+Route
+↓
+Controller
+↓
+Service
+↓
+Repository
+↓
+MongoDB
+↓
+ApiResponse
+↓
+Client
+</div>
+</section>
+
+<section id="folder">
+<h2>Recommended Folder Structure</h2>
+<pre><code>src/
+ app.js
+ server.js
+ config/
+ constants/
+ db/
+ middlewares/
+ utils/
+ logger/
+ modules/
+ services/
+ controllers/
+ validations/
+ routes/
+ tests/</code></pre>
+</section>
+
+<section id="serverjs">
+<h2>server.js</h2>
+<p><b>Purpose:</b> Bootstrap the application.</p>
+<pre><code>import app from "./app.js";
+import connectDB from "./db/index.js";
+
+await connectDB();
+
+app.listen(process.env.PORT, () => {
+ console.log("Server Started");
+});</code></pre>
+</section>
+
+<section id="appjs">
+<h2>app.js</h2>
+<pre><code>import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import compression from "compression";
+import morgan from "morgan";
+
+const app = express();
+
+app.use(helmet());
+app.use(cors());
+app.use(compression());
+app.use(express.json());
+app.use(morgan("dev"));
+
+export default app;</code></pre>
+</section>
+
+<section id="env">
+<h2>.env</h2>
+<pre><code>PORT=5000
+NODE_ENV=development
+MONGODB_URI=
+JWT_SECRET=
+JWT_REFRESH_SECRET=
+CORS_ORIGIN=http://localhost:5173</code></pre>
+<p>Never commit this file.</p>
+</section>
+
+<section id="gitignore">
+<h2>.gitignore</h2>
+<pre><code>node_modules/
+.env
+dist/
+coverage/
+logs/
+*.log</code></pre>
+</section>
+
+<section id="config">
+<h2>Config Layer</h2>
+<p>Centralize environment variables into one object so the rest of your app never accesses process.env directly.</p>
+<pre><code>export const config = {
+ port: process.env.PORT,
+ mongoUri: process.env.MONGODB_URI,
+ jwtSecret: process.env.JWT_SECRET
+};</code></pre>
+</section>
+
+<section id="mongodb">
+<h2>MongoDB Connection</h2>
+<pre><code>import mongoose from "mongoose";
+
+export default async function connectDB(){
+ await mongoose.connect(process.env.MONGODB_URI);
+ console.log("Mongo Connected");
+}</code></pre>
+</section>
+
+<section id="logger">
+<h2>Pino Logger</h2>
+<pre><code>import pino from "pino";
+
+export const logger = pino({
+ level:"info"
+});</code></pre>
+<table>
+<tr><th>Tool</th><th>Purpose</th></tr>
+<tr><td>Pino</td><td>Application logs</td></tr>
+<tr><td>Morgan</td><td>HTTP request logs</td></tr>
+</table>
+</section>
+
+<section id="middleware">
+<h2>Security Middleware Checklist</h2>
+<table>
+<tr><th>Middleware</th><th>Why</th></tr>
+<tr><td>helmet</td><td>Security headers</td></tr>
+<tr><td>cors</td><td>Cross-origin control</td></tr>
+<tr><td>compression</td><td>Reduce response size</td></tr>
+<tr><td>express.json()</td><td>Parse JSON body</td></tr>
+<tr><td>morgan</td><td>Request logging</td></tr>
+<tr><td>express-rate-limit</td><td>Prevent abuse</td></tr>
+<tr><td>hpp</td><td>HTTP parameter pollution</td></tr>
+<tr><td>cookie-parser</td><td>Cookies</td></tr>
+</table>
+</section>
+
+<section>
+<h2>Next Chapters</h2>
+<ul>
+<li>Zod Validation</li>
+<li>ApiResponse & ApiError</li>
+<li>Async Handler</li>
+<li>Global Error Handling</li>
+<li>Authentication</li>
+<li>Authorization</li>
+<li>Redis</li>
+<li>Docker</li>
+<li>Swagger</li>
+<li>Deployment</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

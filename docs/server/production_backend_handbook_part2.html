@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Production Backend Handbook - Part 2</title>
+<style>
+body{font-family:Arial,sans-serif;background:#0f172a;color:#e5e7eb;max-width:1100px;margin:auto;padding:40px;line-height:1.7}
+h1,h2{color:#38bdf8}
+pre{background:#1e293b;padding:15px;border-radius:8px;overflow:auto}
+code{color:#7dd3fc}
+table{width:100%;border-collapse:collapse;margin:20px 0}
+th,td{border:1px solid #334155;padding:10px}
+.flow{background:#111827;padding:15px;border-radius:8px;white-space:pre-line;font-family:monospace}
+.note{background:#172554;padding:15px;border-left:5px solid #38bdf8}
+</style>
+</head>
+<body>
+
+<h1>Production Backend Handbook - Part 2</h1>
+
+<div class="note">
+This section covers request validation, standardized API responses, async error handling,
+and global error handling—the foundation before authentication.
+</div>
+
+<h2>Zod Validation</h2>
+
+<p><b>Why?</b> Never trust client input. Validate every request before it reaches your controller.</p>
+
+<div class="flow">
+Client
+↓
+Request Body
+↓
+Zod Schema
+↓
+Valid?
+├── Yes → Controller
+└── No → 400 Response
+</div>
+
+<pre><code>import { z } from "zod";
+
+export const registerSchema = z.object({
+  username: z.string().min(3).max(30),
+  email: z.email(),
+  password: z.string().min(8)
+});</code></pre>
+
+<h2>Validation Middleware</h2>
+
+<pre><code>export const validate = (schema) => (req,res,next)=>{
+  const result = schema.safeParse(req.body);
+
+  if(!result.success){
+    return res.status(400).json({
+      success:false,
+      errors:result.error.flatten()
+    });
+  }
+
+  req.body = result.data;
+  next();
+};</code></pre>
+
+<h2>Request Flow</h2>
+
+<div class="flow">
+Request
+↓
+express.json()
+↓
+validate(schema)
+↓
+Controller
+↓
+Service
+↓
+Database
+↓
+ApiResponse
+</div>
+
+<h2>ApiResponse Class</h2>
+
+<pre><code>export class ApiResponse{
+  constructor(statusCode,data,message="Success"){
+    this.success = true;
+    this.statusCode = statusCode;
+    this.message = message;
+    this.data = data;
+  }
+}</code></pre>
+
+<p>Example:</p>
+
+<pre><code>return res.status(201).json(
+ new ApiResponse(
+   201,
+   user,
+   "User registered successfully"
+ )
+);</code></pre>
+
+<h2>ApiError Class</h2>
+
+<pre><code>export class ApiError extends Error{
+  constructor(statusCode,message){
+    super(message);
+
+    this.statusCode = statusCode;
+    this.success = false;
+  }
+}</code></pre>
+
+<h2>Async Handler</h2>
+
+<p>Instead of writing try/catch in every controller.</p>
+
+<pre><code>export const asyncHandler = (fn)=>
+(req,res,next)=>{
+  Promise.resolve(fn(req,res,next))
+    .catch(next);
+};</code></pre>
+
+<h2>Controller Example</h2>
+
+<pre><code>export const register = asyncHandler(async(req,res)=>{
+
+ const user = await authService.register(req.body);
+
+ return res.status(201).json(
+   new ApiResponse(201,user,"Registered")
+ );
+
+});</code></pre>
+
+<h2>Global Error Handler</h2>
+
+<pre><code>export const globalErrorHandler =
+(err,req,res,next)=>{
+
+ return res.status(err.statusCode || 500).json({
+   success:false,
+   message:err.message || "Internal Server Error"
+ });
+
+};</code></pre>
+
+<h2>Register Order</h2>
+
+<pre><code>app.use(routes);
+
+// LAST middleware
+app.use(globalErrorHandler);</code></pre>
+
+<h2>Error Flow</h2>
+
+<div class="flow">
+Controller
+↓
+throw ApiError
+↓
+asyncHandler
+↓
+globalErrorHandler
+↓
+JSON Response
+</div>
+
+<h2>Operational vs Programming Errors</h2>
+
+<table>
+<tr><th>Operational</th><th>Programming</th></tr>
+<tr><td>Invalid Password</td><td>Undefined Variable</td></tr>
+<tr><td>User Not Found</td><td>Syntax Error</td></tr>
+<tr><td>Validation Error</td><td>Null Reference</td></tr>
+<tr><td>Database Timeout</td><td>Logic Bug</td></tr>
+</table>
+
+<h2>Best Practices</h2>
+
+<ul>
+<li>Validate every input.</li>
+<li>Never expose stack traces in production.</li>
+<li>Use one response format everywhere.</li>
+<li>Throw custom errors instead of strings.</li>
+<li>Keep controllers thin; move business logic to services.</li>
+</ul>
+
+<h2>Interview Questions</h2>
+
+<ol>
+<li>Why use Zod over manual validation?</li>
+<li>Difference between parse() and safeParse()?</li>
+<li>Why is asyncHandler useful?</li>
+<li>Why should there be one global error handler?</li>
+<li>Why create ApiResponse and ApiError classes?</li>
+</ol>
+
+<h2>Coming Next</h2>
+<ul>
+<li>Helmet Deep Dive</li>
+<li>CORS</li>
+<li>Rate Limiter</li>
+<li>HPP</li>
+<li>Compression</li>
+<li>Cookie Parser</li>
+<li>Authentication Architecture</li>
+<li>JWT Access & Refresh Tokens</li>
+</ul>
+
+</body>
+</html>

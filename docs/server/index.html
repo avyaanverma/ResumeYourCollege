@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Production Backend Handbook</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+display:flex;
+background:#0f172a;
+color:white;
+}
+
+.sidebar{
+
+width:300px;
+height:100vh;
+overflow:auto;
+background:#111827;
+padding:30px;
+position:fixed;
+left:0;
+top:0;
+
+}
+
+.sidebar h2{
+
+margin-bottom:25px;
+color:#38bdf8;
+
+}
+
+.sidebar ul{
+
+list-style:none;
+
+}
+
+.sidebar li{
+
+padding:10px 0;
+cursor:pointer;
+color:#ddd;
+
+}
+
+.sidebar li:hover{
+
+color:#38bdf8;
+
+}
+
+.content{
+
+margin-left:300px;
+padding:50px;
+width:calc(100% - 300px);
+
+}
+
+section{
+
+margin-bottom:80px;
+
+}
+
+h1{
+
+font-size:42px;
+margin-bottom:20px;
+
+}
+
+h2{
+
+font-size:30px;
+margin:30px 0 15px;
+
+color:#38bdf8;
+
+}
+
+h3{
+
+margin:20px 0 10px;
+
+}
+
+p{
+
+line-height:1.8;
+color:#d1d5db;
+
+}
+
+pre{
+
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+overflow:auto;
+margin:20px 0;
+
+}
+
+code{
+
+color:#7dd3fc;
+
+}
+
+.note{
+
+background:#1e3a8a;
+padding:20px;
+border-left:5px solid #38bdf8;
+margin:20px 0;
+border-radius:10px;
+
+}
+
+.warning{
+
+background:#7f1d1d;
+padding:20px;
+border-left:5px solid red;
+margin:20px 0;
+border-radius:10px;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+
+}
+
+td,th{
+
+border:1px solid #334155;
+padding:15px;
+
+}
+
+.flow{
+
+background:#111827;
+padding:20px;
+border-radius:10px;
+font-family:monospace;
+line-height:2;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>Backend Handbook</h2>
+
+<ul>
+
+<li>Introduction</li>
+<li>Backend Architecture</li>
+<li>Request Lifecycle</li>
+<li>Express Server</li>
+<li>Folder Structure</li>
+<li>Environment Variables</li>
+<li>Configuration</li>
+<li>MongoDB</li>
+<li>Zod Validation</li>
+<li>API Response</li>
+<li>Error Handling</li>
+<li>Security</li>
+<li>Authentication</li>
+
+</ul>
+
+</div>
+
+<div class="content">
+
+<section>
+
+<h1>Production Backend Handbook</h1>
+
+<p>
+
+This handbook contains everything required to build an industry level Express Backend.
+
+Instead of copying YouTube tutorials,
+you'll understand WHY every file exists,
+WHEN to create it,
+and HOW companies actually structure their backend.
+
+</p>
+
+<div class="note">
+
+Goal:
+Build production-level Express APIs exactly like startups and product companies.
+
+</div>
+
+</section>
+
+<section>
+
+<h2>What Happens When User Opens Website?</h2>
+
+<div class="flow">
+
+User
+
+↓
+
+Browser
+
+↓
+
+DNS Lookup
+
+↓
+
+Server IP
+
+↓
+
+Express Server
+
+↓
+
+Middleware
+
+↓
+
+Router
+
+↓
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Database
+
+↓
+
+Response
+
+↓
+
+Browser
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Production Express Architecture</h2>
+
+<div class="flow">
+
+Client
+
+↓
+
+Load Balancer
+
+↓
+
+NGINX
+
+↓
+
+Express Server
+
+↓
+
+Middleware
+
+↓
+
+Routes
+
+↓
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+MongoDB
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Project Folder Structure</h2>
+
+<pre><code>
+
+src
+
+│
+
+├── app.js
+
+├── server.js
+
+│
+
+├── config
+
+├── constants
+
+├── db
+
+├── logger
+
+├── middlewares
+
+├── utils
+
+├── helpers
+
+├── modules
+
+├── validations
+
+├── services
+
+├── controllers
+
+├── routes
+
+├── docs
+
+└── tests
+
+</code></pre>
+
+</section>
+
+<section>
+
+<h2>Why app.js and server.js?</h2>
+
+<table>
+
+<tr>
+
+<th>app.js</th>
+
+<th>server.js</th>
+
+</tr>
+
+<tr>
+
+<td>
+
+Creates Express Application
+
+</td>
+
+<td>
+
+Starts Server
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Middlewares
+
+</td>
+
+<td>
+
+Connect Database
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Routes
+
+</td>
+
+<td>
+
+Listen Port
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Error Middleware
+
+</td>
+
+<td>
+
+Graceful Shutdown
+
+</td>
+
+</tr>
+
+</table>
+
+</section>
+
+<section>
+
+<h2>Before Authentication What Every Production Server Needs</h2>
+
+<table>
+
+<tr>
+
+<th>Feature</th>
+
+<th>Purpose</th>
+
+</tr>
+
+<tr>
+
+<td>Environment Variables</td>
+
+<td>Hide Secrets</td>
+
+</tr>
+
+<tr>
+
+<td>Config Folder</td>
+
+<td>Central Configuration</td>
+
+</tr>
+
+<tr>
+
+<td>MongoDB Connection</td>
+
+<td>Database</td>
+
+</tr>
+
+<tr>
+
+<td>Logger</td>
+
+<td>Logs</td>
+
+</tr>
+
+<tr>
+
+<td>Morgan</td>
+
+<td>HTTP Logs</td>
+
+</tr>
+
+<tr>
+
+<td>Helmet</td>
+
+<td>Security Headers</td>
+
+</tr>
+
+<tr>
+
+<td>CORS</td>
+
+<td>Cross Origin</td>
+
+</tr>
+
+<tr>
+
+<td>Compression</td>
+
+<td>Smaller Response</td>
+
+</tr>
+
+<tr>
+
+<td>Rate Limiter</td>
+
+<td>Prevent Abuse</td>
+
+</tr>
+
+<tr>
+
+<td>Zod</td>
+
+<td>Input Validation</td>
+
+</tr>
+
+<tr>
+
+<td>ApiResponse</td>
+
+<td>Standard Response</td>
+
+</tr>
+
+<tr>
+
+<td>ApiError</td>
+
+<td>Standard Errors</td>
+
+</tr>
+
+<tr>
+
+<td>Async Handler</td>
+
+<td>No try/catch Everywhere</td>
+
+</tr>
+
+<tr>
+
+<td>Global Error Handler</td>
+
+<td>One Place Error Handling</td>
+
+</tr>
+
+<tr>
+
+<td>Git Ignore</td>
+
+<td>Ignore Secrets</td>
+
+</tr>
+
+<tr>
+
+<td>Graceful Shutdown</td>
+
+<td>Close DB Properly</td>
+
+</tr>
+
+<tr>
+
+<td>Health Check Route</td>
+
+<td>Monitoring</td>
+
+</tr>
+
+<tr>
+
+<td>Process Events</td>
+
+<td>Unhandled Errors</td>
+
+</tr>
+
+</table>
+
+</section>
+
+<section>
+
+<h2>Request Lifecycle</h2>
+
+<div class="flow">
+
+Request
+
+↓
+
+Morgan
+
+↓
+
+Helmet
+
+↓
+
+CORS
+
+↓
+
+Rate Limiter
+
+↓
+
+Body Parser
+
+↓
+
+Validation
+
+↓
+
+Route
+
+↓
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Database
+
+↓
+
+ApiResponse
+
+↓
+
+Client
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Production Checklist</h2>
+
+<pre><code>
+
+✔ Express
+
+✔ Environment Variables
+
+✔ MongoDB
+
+✔ Logger
+
+✔ Helmet
+
+✔ CORS
+
+✔ Compression
+
+✔ Rate Limiter
+
+✔ Validation
+
+✔ Error Handling
+
+✔ Async Handler
+
+✔ ApiResponse
+
+✔ ApiError
+
+✔ Morgan
+
+✔ Config
+
+✔ Constants
+
+✔ Utilities
+
+✔ Helpers
+
+✔ Graceful Shutdown
+
+✔ Health Check
+
+✔ Process Events
+
+✔ Authentication
+
+✔ Authorization
+
+✔ File Upload
+
+✔ Redis
+
+✔ Swagger
+
+✔ Docker
+
+✔ Testing
+
+✔ Deployment
+
+</code></pre>
+
+</section>
+
+</div>
+
+</body>
+
+</html>
