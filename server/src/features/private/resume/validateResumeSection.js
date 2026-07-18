@@ -11,7 +11,7 @@ export default function validateResumeSection(section, data) {
   const result = validator.safeParse(data);
 
   if (!result.success) {
-    throw new ApiError(400, result.error.errors[0].message);
+    throw new ApiError(400, result.error.issues[0].message);
   }
 
   return result.data;
