@@ -50,4 +50,11 @@ router.delete(
   ResumeController.deleteResume
 );
 
+router.get(
+    "/:id/export/pdf",
+    authenticate,
+    ResumeController.exportPDF
+);
+
+
 export default router;

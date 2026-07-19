@@ -1,4 +1,5 @@
 import ResumeService from "./resume.service.js";
+import RenderService from "./render/render.service.js";
 
 import {asyncHandler} from "../../../utils/asyncHandler.js";
 import ApiResponse from "../../../utils/ApiResponse.js";
@@ -78,6 +79,18 @@ class ResumeController {
       )
     );
   });
+
+
+    exportPDF = asyncHandler(async (req, res) => {
+
+    const pdfPath = await RenderService.exportPDF(
+        req.params.id,
+        req.user._id
+    );
+
+    res.download(pdfPath);
+
+});
 }
 
 export default new ResumeController();
