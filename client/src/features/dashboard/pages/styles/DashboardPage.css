@@ -1,17 +1,35 @@
-.dashboard{
-    min-height:100vh;
-    background:#F5F7FC;
+.dashboard {
+  min-height: 100vh;
+  background: #f5f7fc;
 }
 
-.dashboard-container{
+.dashboard-container {
+  width: min(1180px, 92%);
+  margin: auto;
 
-    width:min(1180px,92%);
-    margin:auto;
+  padding: 60px 0 80px;
 
-    padding:60px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
 
-    display:flex;
-    flex-direction:column;
-    gap:40px;
+.danger-button {
+  background: #ef4444;
 
+  color: white;
+
+  border: none;
+
+  padding: 10px 16px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  margin : 0px 10px;
+}
+
+.danger-button:hover {
+  background: #dc2626;
 }
