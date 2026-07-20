@@ -6,7 +6,7 @@ export default function buildLanguages(languages = []) {
   let latex = '\\section*{Languages}\n';
 
   languages.forEach((language) => {
-    const name = escapeLatex(language.name ?? '');
+    const name = escapeLatex(language.language ?? '');
     const proficiency = escapeLatex(language.proficiency ?? '');
 
     latex += `${name} (${proficiency})\\\\\n`;
