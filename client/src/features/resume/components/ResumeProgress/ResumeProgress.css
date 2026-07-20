@@ -1,0 +1,55 @@
+.resume-progress{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+}
+
+.progress-item{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.progress-circle{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    border:2px solid #D1D5DB;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:700;
+
+    color:#64748B;
+
+    background:white;
+
+}
+
+.progress-item span{
+
+    font-size:13px;
+
+    color:#64748B;
+
+}

@@ -1,0 +1,38 @@
+.resume-header{
+
+    height:70px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 40px;
+
+    background:white;
+
+    border-bottom:1px solid #e2e8f0;
+}
+
+.resume-header h2{
+
+    font-size:24px;
+    font-weight:700;
+
+}
+
+.save-btn{
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:8px;
+
+    background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:600;
+}

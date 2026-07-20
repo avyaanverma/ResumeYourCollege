@@ -1,0 +1,35 @@
+.resume-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+}
+
+.resume-footer button{
+
+    padding:14px 28px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+}
+
+.resume-footer button:last-child{
+
+    background:#4F46E5;
+
+    color:white;
+
+}
+
+.resume-footer button:first-child{
+
+    background:#E2E8F0;
+
+}
