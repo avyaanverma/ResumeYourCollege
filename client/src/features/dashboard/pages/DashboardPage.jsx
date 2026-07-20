@@ -14,7 +14,7 @@ import { createResume } from "../../resume/resumeApi";
 
 import "./styles/DashboardPage.css";
 
-
+import { toast } from "react-toastify";
 
 export default function DashboardPage() {
 
@@ -39,12 +39,12 @@ export default function DashboardPage() {
         setLoading(true);
 
         const res = await createResume();
-
+        toast.success("Resume Created successfully!");
         navigate(`/resume/${res.data._id}/wizard`);
       } catch (err){
-        console.log(err);
+        toast.error(err?.response?.data?.message || "Failed to create resume. Please try again later");
       } finally {
-        setLoading(false);
+        setTimeout(()=>setLoading(false), 200)
       }
     }
     return (
