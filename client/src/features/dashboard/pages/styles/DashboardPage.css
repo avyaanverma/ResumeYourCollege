@@ -27,9 +27,40 @@
 
   cursor: pointer;
 
-  margin : 0px 10px;
+  margin: 0px 10px;
 }
 
 .danger-button:hover {
   background: #dc2626;
+}
+
+
+.spinner{
+
+    width:16px;
+
+    height:16px;
+
+    border:2px solid rgb(23, 8, 137);
+
+    border-top-color:transparent;
+
+    border-radius:50%;
+
+    display:inline-block;
+
+    animation:spin .8s linear infinite;
+
+    margin-right:8px;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
 }

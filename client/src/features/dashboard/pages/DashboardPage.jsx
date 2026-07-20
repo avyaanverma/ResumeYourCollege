@@ -74,6 +74,29 @@ export default function DashboardPage() {
       setDeletingId(null);
     }
   }
+  async function handleDownload(resume) {
+    try {
+      setDownloadingId(resume._id);
+
+      const response = await downloadResumePdf(resume._id);
+
+      const url = URL.createObjectURL(response.data);
+
+      const link = document.createElement("a");
+
+      link.href = url;
+
+      link.download = `${resume.title}.pdf`;
+
+      link.click();
+
+      URL.revokeObjectURL(url);
+    } catch {
+      toast.error("Unable to download");
+    } finally {
+      setDownloadingId(null);
+    }
+  }
   return (
     <main className="dashboard">
       <section className="dashboard-container">
@@ -110,10 +133,26 @@ export default function DashboardPage() {
                   </button>
                   <button
                     className="secondary-button"
+                    disabled={downloadingId === resume._id}
                     onClick={() => handleDownload(resume)}
                   >
-                    Download PDF
-                  </button>
+                    {
+                        downloadingId===resume._id
+
+                        ?
+
+                        <>
+                            <span className="spinner"></span>
+
+                            Generating PDF
+                        </>
+
+                        :
+
+                        "Download PDF"
+
+                    }
+                </button>
                 </div>
               </article>
             ))}
