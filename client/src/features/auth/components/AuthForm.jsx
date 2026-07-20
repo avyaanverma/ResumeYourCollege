@@ -1,4 +1,4 @@
-import { Form, Link, useNavigation } from 'react-router-dom';
+import { Form, Link, useNavigation } from 'react-router';
 
 export default function AuthForm({ mode, error }) {
   const isRegister = mode === 'register';

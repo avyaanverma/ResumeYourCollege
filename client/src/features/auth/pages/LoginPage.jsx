@@ -1,4 +1,4 @@
-import { redirect, useActionData } from "react-router-dom";
+import { redirect, useActionData } from "react-router";
 import { store } from "../../../app/store";
 import { login } from "../authApi";
 import { setSession } from "../authSlice";
