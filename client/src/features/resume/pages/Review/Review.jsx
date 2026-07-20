@@ -16,6 +16,7 @@ export default function Review() {
       link.click();
       URL.revokeObjectURL(url);
       toast.success("Your resume PDF is ready");
+      navigate("dashboard")
     } catch (e) {
       toast.error(e?.response?.data?.message || "Could not generate the PDF");
     }

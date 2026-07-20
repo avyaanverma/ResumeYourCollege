@@ -33,7 +33,7 @@ export default function Profile() {
       resume = await updateResumeSection(resumeId, "summary", v.summary || "");
       dispatch(setCurrentResume(resume));
       toast.success("Profile saved");
-      navigate("../education");
+      navigate(`/resume/${resumeId}/education`);
     } catch (e) {
       toast.error(e?.response?.data?.message || "Could not save profile");
     }

@@ -28,9 +28,9 @@ const educationSchema = z.object({
 
   fieldOfStudy: z.string().trim().optional(),
 
-  startDate: z.string(),
+  startDate: z.iso.date(),
 
-  endDate: z.string(),
+  endDate: z.iso.date(),
 
   cgpa: z.string().optional(),
 
@@ -44,9 +44,9 @@ const experienceSchema = z.object({
 
   location: z.string().optional(),
 
-  startDate: z.string(),
+  startDate: z.iso.date(),
 
-  endDate: z.string(),
+  endDate: z.iso.date(),
 
   currentlyWorking: z.boolean(),
 
@@ -76,7 +76,7 @@ const certificationSchema = z.object({
 
   issuer: z.string(),
 
-  issueDate: z.string(),
+  issueDate: z.iso.date(),
 
   credentialUrl: z.string().optional(),
 });

@@ -89,29 +89,34 @@ export default function ResumeSectionForm({ section }) {
   }, [current, section, reset]);
   async function submit(values) {
     const data =
-      section === "achievements"
-        ? values.entries.map((x) => x.value).filter(Boolean)
-        : values.entries.map((entry) => ({
-            ...entry,
-            description:
-              typeof entry.description === "string"
-                ? entry.description.split("\n").filter(Boolean)
-                : entry.description || [],
-            techStack:
-              typeof entry.techStack === "string"
-                ? entry.techStack
-                    .split(",")
-                    .map((x) => x.trim())
-                    .filter(Boolean)
-                : entry.techStack || [],
-            items:
-              typeof entry.items === "string"
-                ? entry.items
-                    .split(",")
-                    .map((x) => x.trim())
-                    .filter(Boolean)
-                : entry.items || [],
-          }));
+  section === "achievements"
+    ? values.entries.map((x) => x.value).filter(Boolean)
+    : values.entries.map((entry) => ({
+        ...entry,
+
+        description:
+          section === "experience" || section === "projects"
+            ? typeof entry.description === "string"
+              ? entry.description.split("\n").filter(Boolean)
+              : entry.description || []
+            : entry.description,
+
+        techStack:
+          typeof entry.techStack === "string"
+            ? entry.techStack
+                .split(",")
+                .map((x) => x.trim())
+                .filter(Boolean)
+            : entry.techStack || [],
+
+        items:
+          typeof entry.items === "string"
+            ? entry.items
+                .split(",")
+                .map((x) => x.trim())
+                .filter(Boolean)
+            : entry.items || [],
+      }));
     try {
       const resume = await updateResumeSection(resumeId, section, data);
       dispatch(setCurrentResume(resume));
