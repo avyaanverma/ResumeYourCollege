@@ -8,11 +8,19 @@ import DashboardHeader from "../components/DashboardHeader";
 import HeroSection from "../components/HeroSection";
 import CreateResumeCard from "../components/CreateResumeCard";
 
+import { useState } from "react";
+
+import { createResume } from "../../resume/resumeApi";
+
 import "./styles/DashboardPage.css";
+
+
 
 export default function DashboardPage() {
 
     const user = useSelector((state) => state.auth.user);
+
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -26,7 +34,19 @@ export default function DashboardPage() {
             navigate("/login");
         }
     }
+    async function handleCreateResume(){
+      try{
+        setLoading(true);
 
+        const res = await createResume();
+
+        navigate(`/resume/${res.data._id}/wizard`);
+      } catch (err){
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
     return (
 
         <main className="dashboard">
@@ -41,7 +61,10 @@ export default function DashboardPage() {
                     firstName={user?.firstName}
                 />
 
-                <CreateResumeCard />
+                <CreateResumeCard 
+                  onCreateResume={handleCreateResume}
+                  loading={loading}
+                />
 
             </section>
 
