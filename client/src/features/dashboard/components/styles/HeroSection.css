@@ -1,0 +1,52 @@
+.hero{
+
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+
+}
+
+.hero-tag{
+
+    color:#6366F1;
+
+    text-transform:uppercase;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    letter-spacing:1.5px;
+
+}
+
+.hero h1{
+
+    font-size:52px;
+
+    line-height:1.1;
+
+    color:#1E293B;
+
+    margin:0;
+
+}
+
+.hero span{
+
+    color:#4338CA;
+
+}
+
+.hero p{
+
+    width:650px;
+    max-width:100%;
+
+    color:#64748B;
+
+    font-size:18px;
+
+    line-height:1.7;
+
+}

@@ -1,0 +1,59 @@
+.dashboard-header{
+
+    height:74px;
+
+    background:white;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 5%;
+
+    border-bottom:1px solid #ECEEF5;
+
+    position:sticky;
+    top:0;
+    z-index:100;
+
+}
+
+.dashboard-logo{
+
+    font-size:18px;
+    font-weight:700;
+    color:white;
+
+}
+
+.dashboard-logo span{
+
+    color:#a5f3fc;
+
+}
+
+.logout-button{
+
+    border:none;
+    background:#EEF2FF;
+
+    color:#4338CA;
+
+    padding:10px 20px;
+
+    border-radius:12px;
+
+    font-weight:500;
+
+    transition:.25s;
+
+    font-size: 13px;
+
+}
+
+.logout-button:hover{
+
+    background:#4F46E5;
+    color:white;
+
+}
