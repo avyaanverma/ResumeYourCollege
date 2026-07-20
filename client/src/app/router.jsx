@@ -8,6 +8,7 @@ import LoginPage, { loginAction } from '../features/auth/pages/LoginPage';
 import RegisterPage, { registerAction } from '../features/auth/pages/RegisterPage';
 import DashboardPage from '../features/dashboard/pages/DashboardPage';
 import NotFoundPage from '../shared/pages/NotFoundPage';
+import ResumeWizardPage from '../features/resume/pages/ResumeWizardPage';
 
 async function requireUser() {
   try {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, loader: () => redirect('/login') },
       { path: 'dashboard', loader: requireUser, element: <DashboardPage /> },
+      { path: 'resume/:id/wizard', element: <ResumeWizardPage/>}
     ],
   },
   {

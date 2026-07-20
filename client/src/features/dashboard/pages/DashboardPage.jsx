@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { clearSession } from "../../auth/authSlice";
 import { logout } from "../../auth/authApi";
 
-import DashboardHeader from "../components/DashboardHeader";
 import HeroSection from "../components/HeroSection";
 import CreateResumeCard from "../components/CreateResumeCard";
 
@@ -15,6 +14,7 @@ import { createResume } from "../../resume/resumeApi";
 import "./styles/DashboardPage.css";
 
 import { toast } from "react-toastify";
+import Navbar from "../components/Navbar";
 
 export default function DashboardPage() {
 
@@ -26,21 +26,14 @@ export default function DashboardPage() {
 
     const navigate = useNavigate();
 
-    async function handleLogout() {
-        try {
-            await logout();
-        } finally {
-            dispatch(clearSession());
-            navigate("/login");
-        }
-    }
+
     async function handleCreateResume(){
       try{
         setLoading(true);
 
-        const res = await createResume();
+        // const res = await createResume();
         toast.success("Resume Created successfully!");
-        navigate(`/resume/${res.data._id}/wizard`);
+        navigate(`/resume/id/wizard`);
       } catch (err){
         toast.error(err?.response?.data?.message || "Failed to create resume. Please try again later");
       } finally {
@@ -50,10 +43,6 @@ export default function DashboardPage() {
     return (
 
         <main className="dashboard">
-
-            <DashboardHeader
-                onLogout={handleLogout}
-            />
 
             <section className="dashboard-container">
 

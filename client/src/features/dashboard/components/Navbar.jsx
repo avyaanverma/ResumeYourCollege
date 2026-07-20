@@ -1,7 +1,14 @@
-import "./styles/DashboardHeader.css";
+import "./styles/Navbar.css";
 
-export default function DashboardHeader({ onLogout }) {
-
+export default function Navbar({ onLogout }) {
+    async function handleLogout() {
+        try {
+            await logout();
+        } finally {
+            dispatch(clearSession());
+            navigate("/login");
+        }
+    }
     return (
 
         <header className="dashboard-header">

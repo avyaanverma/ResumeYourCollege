@@ -1,0 +1,23 @@
+.wizard{
+
+    min-height:100vh;
+
+    background:#F5F7FC;
+
+}
+
+.wizard-body{
+
+    width:min(1100px,92%);
+
+    margin:auto;
+
+    padding:50px 0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:40px;
+
+}
