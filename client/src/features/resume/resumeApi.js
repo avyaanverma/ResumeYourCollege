@@ -9,3 +9,7 @@ export const updateResumeSection = async (id, section, data) =>
   (await api.patch(`${basePath}/${id}`, { section, data })).data.data;
 export const downloadResumePdf = async (id) =>
   api.get(`${basePath}/${id}/export/pdf`, { responseType: "blob" });
+export const deleteResume = async (id)=> {
+    const response = await api.delete(`/private/resumes/${id}`);
+    return response.data.data;
+}
