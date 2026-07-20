@@ -1,35 +1,27 @@
-.resume-footer{
+.resume-footer {
+  display: flex;
 
-    display:flex;
-
-    justify-content:space-between;
-
+  justify-content: space-between;
 }
 
-.resume-footer button{
+.resume-footer button {
+  padding: 14px 28px;
 
-    padding:14px 28px;
+  border: none;
 
-    border:none;
+  border-radius: 12px;
 
-    border-radius:12px;
+  cursor: pointer;
 
-    cursor:pointer;
-
-    font-weight:700;
-
+  font-weight: 700;
 }
 
-.resume-footer button:last-child{
+.resume-footer button:last-child {
+  background: #4f46e5;
 
-    background:#4F46E5;
-
-    color:white;
-
+  color: white;
 }
 
-.resume-footer button:first-child{
-
-    background:#E2E8F0;
-
+.resume-footer button:first-child {
+  background: #e2e8f0;
 }

@@ -1,73 +1,66 @@
-.resume-sidebar{
+.resume-sidebar {
+  width: 260px;
 
-    width:260px;
+  background: white;
 
-    background:white;
+  border-right: 1px solid #e2e8f0;
 
-    border-right:1px solid #e2e8f0;
+  padding: 30px 20px;
 
-    padding:30px 20px;
+  display: flex;
+  flex-direction: column;
 
-    display:flex;
-    flex-direction:column;
-
-    gap:12px;
+  gap: 12px;
 }
 
-.step{
+.step {
+  text-decoration: none;
 
-    text-decoration:none;
+  color: #334155;
 
-    color:#334155;
+  padding: 14px;
 
-    padding:14px;
+  border-radius: 10px;
 
-    border-radius:10px;
+  display: flex;
 
-    display:flex;
+  align-items: center;
 
-    align-items:center;
+  gap: 14px;
 
-    gap:14px;
-
-    transition:.25s;
+  transition: 0.25s;
 }
 
-.step:hover{
-
-    background:#eff6ff;
-
+.step:hover {
+  background: #eff6ff;
 }
 
-.step span{
+.step span {
+  width: 34px;
 
-    width:34px;
+  height: 34px;
 
-    height:34px;
+  display: flex;
 
-    display:flex;
+  justify-content: center;
 
-    justify-content:center;
+  align-items: center;
 
-    align-items:center;
+  border-radius: 50%;
 
-    border-radius:50%;
+  background: #dbeafe;
 
-    background:#dbeafe;
-
-    font-weight:700;
+  font-weight: 700;
 }
 
-.active{
+.active {
+  background: #2563eb;
 
-    background:#2563eb;
-
-    color:white;
+  color: white;
 }
 
-.active span{
+.active span {
+  background: white;
 
-    background:white;
-
-    color:#2563eb;
+  color: #2563eb;
 }

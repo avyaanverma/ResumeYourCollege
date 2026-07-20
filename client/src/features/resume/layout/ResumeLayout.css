@@ -1,18 +1,18 @@
-.resume-layout{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    background:#f8fafc;
+.resume-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
 }
 
-.resume-body{
-    flex:1;
-    display:flex;
-    overflow:hidden;
+.resume-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
 }
 
-.resume-content{
-    flex:1;
-    padding:40px;
-    overflow-y:auto;
+.resume-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
 }

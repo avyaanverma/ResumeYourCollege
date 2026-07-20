@@ -1,25 +1,11 @@
 import "./ResumeFooter.css";
 
-export default function ResumeFooter(){
+export default function ResumeFooter() {
+  return (
+    <footer className="resume-footer">
+      <button>Previous</button>
 
-    return(
-
-        <footer className="resume-footer">
-
-            <button>
-
-                Previous
-
-            </button>
-
-            <button>
-
-                Next
-
-            </button>
-
-        </footer>
-
-    )
-
+      <button>Next</button>
+    </footer>
+  );
 }

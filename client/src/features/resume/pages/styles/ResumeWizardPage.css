@@ -1,23 +1,19 @@
-.wizard{
+.wizard {
+  min-height: 100vh;
 
-    min-height:100vh;
-
-    background:#F5F7FC;
-
+  background: #f5f7fc;
 }
 
-.wizard-body{
+.wizard-body {
+  width: min(1100px, 92%);
 
-    width:min(1100px,92%);
+  margin: auto;
 
-    margin:auto;
+  padding: 50px 0;
 
-    padding:50px 0;
+  display: flex;
 
-    display:flex;
+  flex-direction: column;
 
-    flex-direction:column;
-
-    gap:40px;
-
+  gap: 40px;
 }

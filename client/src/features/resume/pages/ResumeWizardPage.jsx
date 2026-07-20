@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ResumeWizardPage = () => {
-  return (
-    <div>ResumeWizardPage</div>
-  )
-}
+  return <div>ResumeWizardPage</div>;
+};
 
-export default ResumeWizardPage
+export default ResumeWizardPage;

@@ -9,13 +9,11 @@ export default function ResumeSidebar() {
         <NavLink
           key={step.id}
           to={step.id}
-          className={({ isActive }) =>
-            isActive ? "step active" : "step"
-          }
+          className={({ isActive }) => (isActive ? "step active" : "step")}
         >
           {step.title}
         </NavLink>
       ))}
     </aside>
   );
-}   
+}
