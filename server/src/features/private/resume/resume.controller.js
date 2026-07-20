@@ -88,7 +88,12 @@ class ResumeController {
         req.user._id
     );
 
-    res.download(pdfPath);
+    const resume = await ResumeService.getResumeById(req.params.id, req.user._id);
+    const safeName = (resume.personal.fullName || resume.title || "resume")
+      .replace(/[^a-z0-9 _-]/gi, "")
+      .trim()
+      .replace(/\s+/g, "-");
+    res.download(pdfPath, `${safeName || "resume"}-resume.pdf`);
 
 });
 }

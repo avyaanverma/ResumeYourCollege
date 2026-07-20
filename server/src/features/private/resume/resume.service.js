@@ -49,11 +49,14 @@ class ResumeService {
       data
     );
 
-    return await ResumeRepository.updateSection(
-      resumeId,
-      section,
-      validatedData
-    );
+    if (section === "personal") {
+      return await ResumeRepository.updateById(resumeId, {
+        personal: validatedData,
+        title: `${validatedData.fullName}'s Resume`,
+      });
+    }
+
+    return await ResumeRepository.updateSection(resumeId, section, validatedData);
   }
 
   async deleteResume(resumeId, userId) {
