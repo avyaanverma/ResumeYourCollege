@@ -1,0 +1,73 @@
+.resume-sidebar{
+
+    width:260px;
+
+    background:white;
+
+    border-right:1px solid #e2e8f0;
+
+    padding:30px 20px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.step{
+
+    text-decoration:none;
+
+    color:#334155;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    transition:.25s;
+}
+
+.step:hover{
+
+    background:#eff6ff;
+
+}
+
+.step span{
+
+    width:34px;
+
+    height:34px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    background:#dbeafe;
+
+    font-weight:700;
+}
+
+.active{
+
+    background:#2563eb;
+
+    color:white;
+}
+
+.active span{
+
+    background:white;
+
+    color:#2563eb;
+}
