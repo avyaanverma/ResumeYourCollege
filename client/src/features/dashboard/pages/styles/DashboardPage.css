@@ -1,0 +1,17 @@
+.dashboard{
+    min-height:100vh;
+    background:#F5F7FC;
+}
+
+.dashboard-container{
+
+    width:min(1180px,92%);
+    margin:auto;
+
+    padding:60px 0 80px;
+
+    display:flex;
+    flex-direction:column;
+    gap:40px;
+
+}
