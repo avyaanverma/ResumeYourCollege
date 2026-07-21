@@ -35,14 +35,26 @@ class RenderService {
 
         await fs.writeFile(texPath, latex);
 
-        await execa(
-            "tectonic",
-            [
+        try {
+            const result = await execa("tectonic", [
                 texPath,
                 "--outdir",
                 outputDir
-            ]
-        );
+            ]);
+
+            console.log("PDF Generated Successfully");
+            console.log(result.stdout);
+        }
+        catch (err) {
+            console.error("========== TECTONIC ERROR ==========");
+            console.error("Message:", err.message);
+            console.error("Exit Code:", err.exitCode);
+            console.error("STDOUT:\n", err.stdout);
+            console.error("STDERR:\n", err.stderr);
+            console.error(err);
+
+        throw err;
+}
 
         return path.join(outputDir, "resume.pdf");
 

@@ -88,9 +88,9 @@ class AuthService {
       {
         id: userId,
       },
-      env.JWT_SECRET,
+      env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: env.JWT_EXPIRES_IN,
+        expiresIn: env.JWT_ACCESS_EXPIRES_IN,
       }
     );
   }
@@ -100,7 +100,7 @@ class AuthService {
       {
         id: userId,
       },
-      env.JWT_REFRESH_SECRET,
+      env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: env.JWT_REFRESH_EXPIRES_IN,
       }
