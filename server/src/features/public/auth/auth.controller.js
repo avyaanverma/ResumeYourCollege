@@ -55,7 +55,7 @@ class AuthController {
   });
 
   logout = asyncHandler(async (req, res) => {
-    await authService.logout(req.user.id);
+    await authService.logout(req.user._id);
 
     res
       .clearCookie("accessToken", cookieOptions)
