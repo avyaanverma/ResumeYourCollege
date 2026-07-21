@@ -34,33 +34,26 @@
   background: #dc2626;
 }
 
+.spinner {
+  width: 16px;
 
-.spinner{
+  height: 16px;
 
-    width:16px;
+  border: 2px solid rgb(23, 8, 137);
 
-    height:16px;
+  border-top-color: transparent;
 
-    border:2px solid rgb(23, 8, 137);
+  border-radius: 50%;
 
-    border-top-color:transparent;
+  display: inline-block;
 
-    border-radius:50%;
+  animation: spin 0.8s linear infinite;
 
-    display:inline-block;
-
-    animation:spin .8s linear infinite;
-
-    margin-right:8px;
-
+  margin-right: 8px;
 }
 
-@keyframes spin{
-
-    to{
-
-        transform:rotate(360deg);
-
-    }
-
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

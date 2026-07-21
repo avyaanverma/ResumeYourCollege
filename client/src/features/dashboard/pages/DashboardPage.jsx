@@ -18,6 +18,7 @@ export default function DashboardPage() {
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [downloadingId, setDownloadingId] = useState(null);
   const [resumes, setResumes] = useState([]);
   const dispatch = useDispatch();
@@ -40,16 +41,39 @@ export default function DashboardPage() {
     }
   }
   async function handleDownload(resume) {
+    if (isDownloading) return;
+
     try {
+      setIsDownloading(true);
+      setDownloadingId(resume._id);
+
       const response = await downloadResumePdf(resume._id);
-      const url = URL.createObjectURL(response.data);
+
+      const blob = new Blob([response.data], {
+        type: "application/pdf",
+      });
+
+      const url = URL.createObjectURL(blob);
+
       const link = document.createElement("a");
       link.href = url;
-      link.download = `${resume.personal?.fullName || resume.title || "resume"}-resume.pdf`;
+      link.download = `${
+        resume.personal?.fullName || resume.title || "resume"
+      }-resume.pdf`;
+
+      document.body.appendChild(link);
       link.click();
-      URL.revokeObjectURL(url);
-    } catch {
+
+      document.body.removeChild(link);
+
+      // Delay revoking so the browser has time to start the download
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      console.error(error);
       toast.error("Unable to download this resume");
+    } finally {
+      setIsDownloading(false);
+      setDownloadingId(null);
     }
   }
 
@@ -133,26 +157,18 @@ export default function DashboardPage() {
                   </button>
                   <button
                     className="secondary-button"
-                    disabled={downloadingId === resume._id}
                     onClick={() => handleDownload(resume)}
+                    disabled={downloadingId === resume._id}
                   >
-                    {
-                        downloadingId===resume._id
-
-                        ?
-
-                        <>
-                            <span className="spinner"></span>
-
-                            Generating PDF
-                        </>
-
-                        :
-
-                        "Download PDF"
-
-                    }
-                </button>
+                    {downloadingId === resume._id ? (
+                      <>
+                        Generating PDF
+                        <span className="spinner"></span>
+                      </>
+                    ) : (
+                      "Download PDF"
+                    )}
+                  </button>
                 </div>
               </article>
             ))}
