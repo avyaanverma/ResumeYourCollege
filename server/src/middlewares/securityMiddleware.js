@@ -8,13 +8,15 @@ import hpp from 'hpp';
 import { StatusCodes } from 'http-status-codes';
 import env from '../config/env.js';
 import { appConstants } from '../constants/index.js';
-import { verifyToken } from '../middlewares/verifyToken.js';
+import logger from '../logger/pino.js';
 
 const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) =>
   origin.trim()
 );
 
 const securityMiddleware = (app) => {
+  logger.info({ allowedOrigins }, 'Configured CORS origins');
+
   app.set(
     'trust proxy',
     env.NODE_ENV === appConstants.NODE_ENV.PRODUCTION ? 1 : false
@@ -25,6 +27,14 @@ const securityMiddleware = (app) => {
     cors({
       origin: (origin, callback) => {
         const isAllowed = !origin || allowedOrigins.includes(origin);
+
+        if (!isAllowed) {
+          logger.warn(
+            { origin, allowedOrigins },
+            'Rejected request origin by CORS policy'
+          );
+        }
+
         callback(null, isAllowed);
       },
       credentials: true,

@@ -9,6 +9,7 @@ import {
   createResumeSchema,
   updateResumeSchema,
 } from "./resume.validation.js";
+import { previewParamsSchema } from "./preview.validation.js";
 
 const router = Router();
 
@@ -29,6 +30,27 @@ router.get(
   "/",
   authenticate,
   ResumeController.getAllResumes
+);
+
+router.post(
+  "/:id/preview",
+  authenticate,
+  validate(previewParamsSchema),
+  ResumeController.createPreview
+);
+
+router.get(
+  "/:id/preview/:previewId/pdf",
+  authenticate,
+  validate(previewParamsSchema),
+  ResumeController.getPreview
+);
+
+router.delete(
+  "/:id/preview/:previewId",
+  authenticate,
+  validate(previewParamsSchema),
+  ResumeController.deletePreview
 );
 
 router.get(

@@ -8,8 +8,13 @@ import LoginPage, { loginAction } from "../features/auth/pages/LoginPage";
 import RegisterPage, {
   registerAction,
 } from "../features/auth/pages/RegisterPage";
+import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
+import ResetPasswordPage from "../features/auth/pages/ResetPasswordPage";
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import NotFoundPage from "../shared/pages/NotFoundPage";
+import HomePage from "../shared/pages/HomePage";
+import TermsPage from "../shared/pages/TermsPage";
+import PrivacyPage from "../shared/pages/PrivacyPage";
 import ResumeWizardPage from "../features/resume/pages/ResumeWizardPage";
 import ResumeLayout from "../features/resume/layout/ResumeLayout";
 import Profile from "../features/resume/pages/Profile/Profile";
@@ -18,27 +23,38 @@ import Experience from "../features/resume/pages/Experience/Experience";
 import Projects from "../features/resume/pages/Projects/Projects";
 import Skills from "../features/resume/pages/Skills/Skills";
 import Review from "../features/resume/pages/Review/Review";
+import AIPromptPage from "../features/resume/pages/AIPromptPage";
 import Achievements from "../features/resume/pages/Achievements/Achievements";
 import Certifications from "../features/resume/pages/Certifications/Certifications";
 import Languages from "../features/resume/pages/Languages/Languages";
+import { toast } from "react-toastify";
 
 async function requireUser() {
   try {
     const user = await getCurrentUser();
     store.dispatch(setSession({ user }));
     return user;
-  } catch {
+  } catch (e) {
+    console.error(e);
+    console.error(e.response?.data);
+
+    toast.error(e.response?.data?.message || "Authentication failed");
+
     store.dispatch(setSession({ user: null }));
+
     throw redirect("/login");
   }
 }
 
 export const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/terms", element: <TermsPage /> },
+  { path: "/privacy", element: <PrivacyPage /> },
   {
     element: <AppLayout />,
     children: [
-      { index: true, loader: () => redirect("/login") },
       { path: "dashboard", loader: requireUser, element: <DashboardPage /> },
+      { path: "ai-resume", loader: requireUser, element: <AIPromptPage /> },
       {
         path: "resume/:resumeId",
         loader: requireUser,
@@ -89,6 +105,10 @@ export const router = createBrowserRouter([
             path: "review",
             element: <Review />,
           },
+          {
+            path: "preview",
+            element: <Review />,
+          },
         ],
       },
     ],
@@ -98,6 +118,8 @@ export const router = createBrowserRouter([
     children: [
       { path: "login", action: loginAction, element: <LoginPage /> },
       { path: "register", action: registerAction, element: <RegisterPage /> },
+      { path: "forgot-password", element: <ForgotPasswordPage /> },
+      { path: "reset-password", element: <ResetPasswordPage /> },
     ],
   },
   { path: "*", element: <NotFoundPage /> },

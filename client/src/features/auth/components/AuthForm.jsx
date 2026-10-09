@@ -62,9 +62,14 @@ export default function AuthForm({ mode, error }) {
                 : "Enter your password"
             }
             required
-            minLength="8"
+            minLength={isRegister ? 8 : undefined}
           />
         </label>
+        {!isRegister && (
+          <Link className="forgot-password-link" to="/forgot-password">
+            Forgot password?
+          </Link>
+        )}
         {isRegister && (
           <p className="hint">
             Use 8+ characters with uppercase, lowercase, number, and a symbol.
@@ -73,6 +78,9 @@ export default function AuthForm({ mode, error }) {
         {Array.isArray(error) &&
           error.map((err, index) => (
             <p key={index} className="form-error">
+              {err.field && err.field !== "general"
+                ? `${err.field.split(".").at(-1)}: `
+                : ""}
               {err.message}
             </p>
           ))}

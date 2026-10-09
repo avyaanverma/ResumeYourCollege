@@ -6,9 +6,12 @@ export default function buildCertifications(certifications = []) {
   let latex = '\\section*{Certifications}\n';
 
   certifications.forEach((certification) => {
-    const name = escapeLatex(certification.name ?? '');
+    const name = escapeLatex(certification.title ?? '');
     const issuer = escapeLatex(certification.issuer ?? '');
-    const date = escapeLatex(certification.date ?? '');
+    const date = escapeLatex(certification.issueDate ?? '');
+    const credentialUrl = certification.credentialUrl
+      ? escapeLatex(certification.credentialUrl)
+      : '';
 
     latex += `
 \\textbf{${name}}
@@ -16,6 +19,7 @@ export default function buildCertifications(certifications = []) {
 ${issuer}
 
 ${date}
+${credentialUrl ? `\\\\${credentialUrl}` : ''}
 
 \\vspace{0.2cm}
 

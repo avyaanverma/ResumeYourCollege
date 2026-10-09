@@ -62,6 +62,21 @@ VITE_API_URL=http://localhost:5000/api/v1
 4. Add client API function, data-route action/loader, and feature UI.
 5. Run client build and relevant server tests before opening a pull request.
 
+## GitHub CI and deployment
+
+GitHub Actions runs the client production build and checks server JavaScript syntax
+on branch pushes, pull requests targeting `main`, and manual dispatches. These
+checks do not run tests.
+
+Production deployment is handled by the hosting providers' GitHub integrations,
+not by GitHub Actions. Configure the Vercel project to use this repository's
+`client/` directory as its root and the intended production branch. Configure
+the Render web service to use the `server/` directory as its root, run
+`npm install` (or `npm ci`) as its build command, and `npm start` as its start
+command. Set each provider to deploy from the intended branch. A push only
+deploys when it reaches the branch selected in that provider's settings; the
+GitHub Actions checks currently report status but do not gate provider deploys.
+
 ## Troubleshooting
 
 `ERR_CONNECTION_REFUSED` means the API process is not listening at the configured host/port. Confirm `server/.env` port and run `npm run dev` from `server/`. It is not a React Router error.

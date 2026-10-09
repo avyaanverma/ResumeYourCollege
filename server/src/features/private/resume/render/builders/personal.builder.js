@@ -5,6 +5,10 @@ export default function buildPersonal(personal = {}) {
   const email = escapeLatex(personal.email ?? '');
   const phone = escapeLatex(personal.phone ?? '');
   const location = escapeLatex(personal.location ?? '');
+  const links = [personal.linkedin, personal.github, personal.portfolio]
+    .filter(Boolean)
+    .map((link) => escapeLatex(link))
+    .join(' \\quad ');
 
   return `
 \\begin{center}
@@ -12,7 +16,9 @@ export default function buildPersonal(personal = {}) {
 
 ${email} \\quad
 ${phone} \\quad
-${location}
+${location} \\\\
+\\relax
+${links}
 \\end{center}
 `;
 }

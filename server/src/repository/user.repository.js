@@ -69,6 +69,43 @@ class UserRepository {
       email: email.toLowerCase(),
     });
   }
+
+  async setPasswordResetToken(email, tokenHash, expiresAt) {
+    return await User.findOneAndUpdate(
+      { email: email.toLowerCase() },
+      {
+        passwordResetTokenHash: tokenHash,
+        passwordResetExpiresAt: expiresAt,
+      },
+      { new: true }
+    );
+  }
+
+  async resetPassword(tokenHash, password) {
+    return await User.findOneAndUpdate(
+      {
+        passwordResetTokenHash: tokenHash,
+        passwordResetExpiresAt: { $gt: new Date() },
+      },
+      {
+        password,
+        passwordResetTokenHash: null,
+        passwordResetExpiresAt: null,
+        refreshToken: null,
+      },
+      { new: true, runValidators: true }
+    );
+  }
+
+  async clearPasswordResetToken(email) {
+    return await User.findOneAndUpdate(
+      { email: email.toLowerCase() },
+      {
+        passwordResetTokenHash: null,
+        passwordResetExpiresAt: null,
+      }
+    );
+  }
 }
 
 export default new UserRepository();

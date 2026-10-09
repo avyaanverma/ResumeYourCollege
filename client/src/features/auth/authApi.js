@@ -9,3 +9,7 @@ export const register = async (details) =>
 export const getCurrentUser = async () =>
   (await http.get(`${basePath}/me`)).data.data;
 export const logout = () => http.post(`${basePath}/logout`);
+export const requestPasswordReset = (email) =>
+  http.post(`${basePath}/forgot-password`, { email });
+export const resetPassword = (token, password) =>
+  http.post(`${basePath}/reset-password`, { token, password });

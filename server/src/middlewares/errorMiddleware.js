@@ -12,18 +12,15 @@ const sendErrorDev = (err, res) => {
 };
 
 const sendErrorProd = (err, res) => {
-    // 1. Known Operational Errors (e.g., Validation failed, Route not found)
-    if (err.isOperational) {
+    if (err.statusCode < 500) {
         res.status(err.statusCode).json({
             status: err.status,
-            message: err.message
+            message: err.message,
+            ...(err.errors?.length ? { errors: err.errors } : {}),
         });
     }
     // 2. Unknown Programming Errors or Third-Party Failures (Don't leak details!)
     else {
-        // Log the actual error to your monitoring system (e.g., Sentry, Winston)
-        console.error('💥 ERROR:', err);
-
         res.status(500).json({
             status: 'error',
             message: 'Something went very wrong on our end.'
@@ -32,9 +29,19 @@ const sendErrorProd = (err, res) => {
 };
 
 // The 4-argument signature tells Express this is the Global Error Handler
-export default (err, req, res, next) => {
+export default (err, req, res, _next) => {
     err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'error';
+    err.status = err.status || (err.statusCode < 500 ? 'fail' : 'error');
+
+    const logLevel = err.statusCode >= 500 ? 'error' : 'warn';
+    req.log[logLevel](
+        { err, statusCode: err.statusCode },
+        'Request failed'
+    );
+
+    if (res.headersSent) {
+        return _next(err);
+    }
 
     if (process.env.NODE_ENV === 'development') {
         sendErrorDev(err, res);

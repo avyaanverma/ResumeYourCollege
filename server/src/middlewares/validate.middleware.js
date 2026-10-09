@@ -1,21 +1,22 @@
 import { StatusCodes } from "http-status-codes";
 import ApiResponse from "../utils/ApiResponse.js";
 
-export const validate = (schema) => (req,res,next)=>{
+export const validate = (schema) => (req, res, next) => {
     const result = schema.safeParse({
         body: req.body,
         query: req.query,
-        params: req.params
+        params: req.params,
     });
 
-    if(!result.success){
-        const errors = result.error.issues.map((err)=>({
-            field: err.path.join('.'),
-            message: err.message
-        }))
+    if (!result.success) {
+        const errors = result.error.issues.map((err) => ({
+            field: err.path.join("."),
+            message: err.message,
+        }));
+
         return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json(new ApiResponse(StatusCodes.BAD_REQUEST, "Validation Failed", errors));
+            .status(StatusCodes.BAD_REQUEST)
+            .json(new ApiResponse(StatusCodes.BAD_REQUEST, errors, "Validation failed"));
     }
 
     if (result.data.body) req.body = result.data.body;
@@ -23,4 +24,4 @@ export const validate = (schema) => (req,res,next)=>{
     if (result.data.params) Object.assign(req.params, result.data.params);
 
     next();
-}
+};

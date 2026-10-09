@@ -14,6 +14,40 @@
   gap: 40px;
 }
 
+.ai-resume-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #c7d2fe;
+  border-radius: 1rem;
+  background: linear-gradient(120deg, #eef2ff, #fff 68%);
+}
+
+.ai-resume-card h2,
+.ai-resume-card p {
+  margin: 0.25rem 0;
+}
+
+.ai-resume-card p:last-child {
+  color: #64748b;
+}
+
+.resume-item > div:last-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+@media (max-width: 650px) {
+  .ai-resume-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 .danger-button {
   background: #ef4444;
 

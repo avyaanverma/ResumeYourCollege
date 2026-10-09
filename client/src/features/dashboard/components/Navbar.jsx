@@ -14,11 +14,17 @@ export default function Navbar({ onLogout }) {
       navigate("/login");
     }
   }
+
+  function navigateHome() {
+    navigate("/dashboard")
+  }
   return (
     <header className="dashboard-header">
-      <div className="dashboard-logo">
+      <div
+       onClick={navigateHome}
+       className="dashboard-logo">
         ResumeYour
-        <span>College!!</span>
+        <span>College</span>
       </div>
 
       <button className="logout-button" onClick={handleLogout}>

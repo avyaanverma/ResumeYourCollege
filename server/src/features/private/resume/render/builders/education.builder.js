@@ -12,11 +12,14 @@ export default function buildEducation(education = []) {
     const startDate = escapeLatex(edu.startDate ?? '');
     const endDate = escapeLatex(edu.endDate ?? '');
     const cgpa = edu.cgpa ? escapeLatex(edu.cgpa) : '';
+    const description = edu.description ? escapeLatex(edu.description) : '';
 
     latex += `
 \\textbf{${institution}} \\\\
+\\relax
 ${degree} ${fieldOfStudy ? `in ${fieldOfStudy}` : ''} \\hfill ${startDate} -- ${endDate} \\\\
 ${cgpa ? `CGPA: ${cgpa}` : ''}
+${description ? `\\par ${description}` : ''}
 
 \\vspace{0.2cm}
 
