@@ -28,8 +28,8 @@ export default function buildLatexSections(resume) {
 
         CERTIFICATIONS: buildCertifications(resume.certifications),
 
-        ACHIEVEMENTS: (resume.achievements?.length
-          ? `\\section*{Achievements}\n\\begin{itemize}\n${resume.achievements.map((item) => `\\item ${escapeLatex(item)}`).join("\n")}\n\\end{itemize}`
+        ACHIEVEMENTS: (resume.achievements?.filter((item) => item?.trim()).length
+          ? `\\section*{Achievements}\n\\begin{itemize}\n${resume.achievements.filter((item) => item?.trim()).map((item) => `\\item ${escapeLatex(item)}`).join("\n")}\n\\end{itemize}`
           : "")
 
     };

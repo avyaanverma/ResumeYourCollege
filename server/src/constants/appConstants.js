@@ -13,6 +13,6 @@ export const appConstants = {
   },
   SECURITY: {
     PAYLOAD_LIMIT: '10kb',
-    CORS_ORIGIN: 'http://localhost:5173',
+    CORS_ORIGIN: 'http://localhost:5174',
   },
 };

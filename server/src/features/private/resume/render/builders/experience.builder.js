@@ -8,26 +8,29 @@ export default function buildExperience(experience = []) {
   experience.forEach((exp) => {
     const position = escapeLatex(exp.position ?? '');
     const company = escapeLatex(exp.company ?? '');
+    const location = escapeLatex(exp.location ?? '');
     const startDate = escapeLatex(exp.startDate ?? '');
-    const endDate = escapeLatex(exp.endDate ?? '');
-    const description = (exp.description ?? []).map((d) => escapeLatex(d));
+    const endDate = exp.currentlyWorking ? 'Present' : escapeLatex(exp.endDate ?? '');
+    const description = (exp.description ?? [])
+      .map((d) => escapeLatex(d))
+      .filter(Boolean);
 
     latex += `
 \\textbf{${position}}
 
-${company} \\hfill ${startDate} -- ${endDate}
-
-\\begin{itemize}
+${company}${location ? `, ${location}` : ''} \\hfill ${startDate} -- ${endDate} \\\\
+\\relax
 `;
 
-    description.forEach((point) => {
-      latex += `\\item ${point}\n`;
-    });
+    if (description.length) {
+      latex += '\\begin{itemize}\n';
+      description.forEach((point) => {
+        latex += `\\item ${point}\n`;
+      });
+      latex += '\\end{itemize}\n';
+    }
 
-    latex += `
-\\end{itemize}
-
-`;
+    latex += '\n';
   });
 
   return latex;

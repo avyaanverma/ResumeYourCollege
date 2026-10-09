@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
+    "start": "node server.js",
     "prepare": "husky",
     "test": "vitest",
     "test:watch": "vitest --watch",
@@ -15,6 +16,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@ai-sdk/groq": "^4.0.59",
+    "ai": "^7.0.136",
     "bcryptjs": "^3.0.3",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
@@ -28,6 +31,8 @@
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.4",
+    "morgan": "^1.12.1",
+    "nodemailer": "^10.0.16",
     "pino": "^10.3.1",
     "pino-http": "^11.0.0",
     "zod": "^4.4.3"

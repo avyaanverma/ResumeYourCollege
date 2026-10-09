@@ -8,7 +8,13 @@ export default function buildProjects(projects = []) {
   projects.forEach((project) => {
     const title = escapeLatex(project.title ?? '');
     const techStack = (project.techStack ?? []).map((t) => escapeLatex(t));
-    const description = (project.description ?? []).map((d) => escapeLatex(d));
+    const description = (project.description ?? [])
+      .map((d) => escapeLatex(d))
+      .filter(Boolean);
+    const links = [
+      project.github && `GitHub: ${escapeLatex(project.github)}`,
+      project.live && `Live: ${escapeLatex(project.live)}`,
+    ].filter(Boolean);
 
     latex += `
 \\textbf{${title}}
@@ -22,13 +28,17 @@ export default function buildProjects(projects = []) {
 `;
     }
 
-    latex += '\\begin{itemize}\n';
+    if (links.length) {
+      latex += `${links.join(' \\quad ')}\\\\\n`;
+    }
 
-    description.forEach((point) => {
-      latex += `\\item ${point}\n`;
-    });
-
-    latex += '\\end{itemize}\n';
+    if (description.length) {
+      latex += '\\begin{itemize}\n';
+      description.forEach((point) => {
+        latex += `\\item ${point}\n`;
+      });
+      latex += '\\end{itemize}\n';
+    }
   });
 
   return latex;

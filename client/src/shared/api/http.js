@@ -8,9 +8,16 @@ const http = axios.create({
 export function getApiError(error) {
   const data = error.response?.data;
 
-  // Validation errors
-  if (Array.isArray(data?.message)) {
-    return data.message;
+  const validationErrors = Array.isArray(data?.data)
+    ? data.data
+    : Array.isArray(data?.errors)
+      ? data.errors
+      : Array.isArray(data?.message)
+        ? data.message
+        : null;
+
+  if (validationErrors) {
+    return validationErrors;
   }
 
   // Normal API errors
